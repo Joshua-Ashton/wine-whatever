@@ -1,3 +1,9 @@
+What is Wine Whatever?
+---------------------
+
+Send me a patch and I'll shove it in there, as long as its not malicious.
+Accepting pretty much anything to shove in...
+
 What is Wine Staging?
 ---------------------
 
