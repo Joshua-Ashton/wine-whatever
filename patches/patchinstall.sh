@@ -168,6 +168,7 @@ patch_enable_all ()
 	enable_dxgi_MakeWindowAssociation="$1"
 	enable_dxva2_Video_Decoder="$1"
 	enable_explorer_Video_Registry_Key="$1"
+	enable_fo4="$1"
 	enable_fonts_Missing_Fonts="$1"
 	enable_fonts_Tahoma="$1"
 	enable_fsutil_Stub_Program="$1"
@@ -177,6 +178,7 @@ patch_enable_all ()
 	enable_gdi32_Path_Metafile="$1"
 	enable_gdi32_Symbol_Truetype_Font="$1"
 	enable_gdiplus_Performance_Improvements="$1"
+	enable_gta5="$1"
 	enable_hal_KeQueryPerformanceCounter="$1"
 	enable_hnetcfg_INetFwAuthorizedApplication="$1"
 	enable_ieframe_IViewObject_Draw="$1"
@@ -387,6 +389,7 @@ patch_enable_all ()
 	enable_shlwapi_UrlCombine="$1"
 	enable_stdole32_idl_Typelib="$1"
 	enable_stdole32_tlb_SLTG_Typelib="$1"
+	enable_steamwebhelper="$1"
 	enable_taskmgr_Memory_Usage="$1"
 	enable_user_exe16_CONTAINING_RECORD="$1"
 	enable_user_exe16_DlgDirList="$1"
@@ -520,8 +523,6 @@ patch_enable_all ()
 	enable_wusa_MSU_Package_Installer="$1"
 	enable_xaudio2_get_al_format="$1"
 	enable_xaudio2_7_OnVoiceProcessingPassStart="$1"
-	enable_fo4="$1"
-	enable_gta5="$1"
 }
 
 # Enable or disable a specific patchset
@@ -786,6 +787,9 @@ patch_enable ()
 		explorer-Video_Registry_Key)
 			enable_explorer_Video_Registry_Key="$2"
 			;;
+		fo4)
+			enable_fo4="$2"
+			;;
 		fonts-Missing_Fonts)
 			enable_fonts_Missing_Fonts="$2"
 			;;
@@ -812,6 +816,9 @@ patch_enable ()
 			;;
 		gdiplus-Performance-Improvements)
 			enable_gdiplus_Performance_Improvements="$2"
+			;;
+		gta5)
+			enable_gta5="$2"
 			;;
 		hal-KeQueryPerformanceCounter)
 			enable_hal_KeQueryPerformanceCounter="$2"
@@ -1443,6 +1450,9 @@ patch_enable ()
 		stdole32.tlb-SLTG_Typelib)
 			enable_stdole32_tlb_SLTG_Typelib="$2"
 			;;
+		steamwebhelper)
+			enable_steamwebhelper="$2"
+			;;
 		taskmgr-Memory_Usage)
 			enable_taskmgr_Memory_Usage="$2"
 			;;
@@ -1841,12 +1851,6 @@ patch_enable ()
 			;;
 		xaudio2_7-OnVoiceProcessingPassStart)
 			enable_xaudio2_7_OnVoiceProcessingPassStart="$2"
-			;;
-		fo4)
-			enable_fo4="$2"
-			;;
-		gta5)
-			enable_gta5="$2"
 			;;
 		*)
 			return 1
@@ -4898,6 +4902,17 @@ if test "$enable_explorer_Video_Registry_Key" -eq 1; then
 	) >> "$patchlist"
 fi
 
+# Patchset fo4
+# |
+# | Modified files:
+# |   *	dlls/wined3d/glsl_shader.c
+# |
+if test "$enable_fo4" -eq 1; then
+	patch_apply fo4/0001-fo4.patch
+	(
+	) >> "$patchlist"
+fi
+
 # Patchset fonts-Missing_Fonts
 # |
 # | This patchset fixes the following Wine bugs:
@@ -5052,6 +5067,18 @@ if test "$enable_gdiplus_Performance_Improvements" -eq 1; then
 		printf '%s\n' '+    { "Dmitry Timoshkov", "gdiplus: Change multiplications by additions in the x/y scaler loops.", 1 },';
 		printf '%s\n' '+    { "Dmitry Timoshkov", "gdiplus: Remove ceilf/floorf calls from bilinear scaler.", 2 },';
 		printf '%s\n' '+    { "Dmitry Timoshkov", "gdiplus: Prefer using pre-multiplied ARGB data in the scaler.", 1 },';
+	) >> "$patchlist"
+fi
+
+# Patchset gta5
+# |
+# | Modified files:
+# |   *	dlls/d3d11/device.c, dlls/wined3d/swapchain.c
+# |
+if test "$enable_gta5" -eq 1; then
+	patch_apply gta5/0001-gta5-device.patch
+	patch_apply gta5/0002-gta5-swapchain.patch
+	(
 	) >> "$patchlist"
 fi
 
@@ -8560,6 +8587,17 @@ if test "$enable_stdole32_tlb_SLTG_Typelib" -eq 1; then
 	) >> "$patchlist"
 fi
 
+# Patchset steamwebhelper
+# |
+# | Modified files:
+# |   *	dlls/kernel32/process.c
+# |
+if test "$enable_steamwebhelper" -eq 1; then
+	patch_apply steamwebhelper/0001-steamwebhelper.patch
+	(
+	) >> "$patchlist"
+fi
+
 # Patchset taskmgr-Memory_Usage
 # |
 # | Modified files:
@@ -10773,20 +10811,6 @@ if test "$enable_xaudio2_7_OnVoiceProcessingPassStart" -eq 1; then
 	patch_apply xaudio2_7-OnVoiceProcessingPassStart/0001-xaudio2_7-Use-assembly-wrapper-to-call-OnVoiceProces.patch
 	(
 		printf '%s\n' '+    { "Sebastian Lackner", "xaudio2_7: Use assembly wrapper to call OnVoiceProcessingPassStart callback.", 1 },';
-	) >> "$patchlist"
-fi
-
-if test "$enable_fo4" -eq 1; then
-	patch_apply fo4/fo4.patch
-	(
-		printf '%s\n' '+    { "Someone", "Fallout 4 patch.", 1 },';
-	) >> "$patchlist"
-fi
-
-if test "$enable_gta5" -eq 1; then
-	patch_apply gta5/gta5.patch
-	(
-		printf '%s\n' '+    { "Pitor W", "GTA 5 black screenp atch.", 1 },';
 	) >> "$patchlist"
 fi
 

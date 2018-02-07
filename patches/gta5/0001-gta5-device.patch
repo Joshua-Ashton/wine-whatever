@@ -1,5 +1,5 @@
 --- a/dlls/d3d11/device.c	
-+++ a/dlls/d3d11/device.c	
++++ b/dlls/d3d11/device.c	
 @@ -9140,7 +9140,7 @@ static HRESULT CDECL device_parent_create_swapchain_texture(struct wined3d_devic
      desc.SampleDesc.Count = wined3d_desc->multisample_type ? wined3d_desc->multisample_type : 1;
      desc.SampleDesc.Quality = wined3d_desc->multisample_quality;
@@ -8,15 +8,6 @@
 +    desc.BindFlags = D3D10_BIND_RENDER_TARGET | D3D10_BIND_SHADER_RESOURCE;
      desc.CPUAccessFlags = 0;
      desc.MiscFlags = 0;
- 
---- a/dlls/wined3d/swapchain.c	
-+++ a/dlls/wined3d/swapchain.c	
-@@ -929,7 +929,7 @@ static HRESULT swapchain_init(struct wined3d_swapchain *swapchain, struct wined3
-             goto err;
-         }
- 
--        texture_desc.usage |= WINED3DUSAGE_RENDERTARGET;
-+        texture_desc.usage |= WINED3DUSAGE_RENDERTARGET | WINED3DUSAGE_TEXTURE;
-         for (i = 0; i < swapchain->desc.backbuffer_count; ++i)
-         {
-             TRACE("Creating back buffer %u.\n", i);
+
+-- 
+2.21.0

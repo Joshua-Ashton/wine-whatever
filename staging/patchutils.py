@@ -165,38 +165,6 @@ class _PatchReader(object):
         srcdata = []
         dstdata = []
 
-        try:
-            while srclines > 0 or dstlines > 0:
-                line = self.read().rstrip("\n")
-                if line[0] == " ":
-                    if srclines == 0 or dstlines == 0:
-                        raise PatchParserError("Corrupted patch.")
-                    srcdata.append(line[1:])
-                    dstdata.append(line[1:])
-                    srclines -= 1
-                    dstlines -= 1
-                elif line[0] == "-":
-                    if srclines == 0:
-                        raise PatchParserError("Corrupted patch.")
-                    srcdata.append(line[1:])
-                    srclines -= 1
-                elif line[0] == "+":
-                    if dstlines == 0:
-                        raise PatchParserError("Corrupted patch.")
-                    dstdata.append(line[1:])
-                    dstlines -= 1
-                elif line[0] == "\\":
-                    pass # ignore
-                else:
-                    raise PatchParserError("Unexpected line in hunk.")
-        except IndexError: # triggered by ""[0]
-            raise PatchParserError("Truncated patch.")
-
-        while True:
-            line = self.peek()
-            if line is None or not line.startswith("\\ "): break
-            self.read()
-
         return (srcpos, srcdata, dstpos, dstdata)
 
 def _read_single_patch(fp, header, oldname=None, newname=None):
@@ -378,9 +346,6 @@ def read_patch(filename, fp=None):
 
             elif line.startswith("--- "):
                 yield _read_single_patch(fp, header)
-
-            elif line.startswith("@@ -") or line.startswith("+++ "):
-                raise PatchParserError("Patch didn't start with a git or diff header.")
 
             else:
                 fp.read()
