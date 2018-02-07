@@ -4,6 +4,11 @@ What is Wine Whatever?
 Send me a patch and I'll shove it in there, as long as its not malicious.
 Accepting pretty much anything to shove in...
 
+Current Patches
+ - GTA 5 Black Screen Patch
+ - Fallout 4 LOD Patch
+ - Gallium Nine Patches
+
 What is Wine Staging?
 ---------------------
 
