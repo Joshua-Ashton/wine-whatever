@@ -168,7 +168,6 @@ patch_enable_all ()
 	enable_dxgi_MakeWindowAssociation="$1"
 	enable_dxva2_Video_Decoder="$1"
 	enable_explorer_Video_Registry_Key="$1"
-	enable_fo4="$1"
 	enable_fonts_Missing_Fonts="$1"
 	enable_fonts_Tahoma="$1"
 	enable_fsutil_Stub_Program="$1"
@@ -178,7 +177,6 @@ patch_enable_all ()
 	enable_gdi32_Path_Metafile="$1"
 	enable_gdi32_Symbol_Truetype_Font="$1"
 	enable_gdiplus_Performance_Improvements="$1"
-	enable_gta5="$1"
 	enable_hal_KeQueryPerformanceCounter="$1"
 	enable_hnetcfg_INetFwAuthorizedApplication="$1"
 	enable_ieframe_IViewObject_Draw="$1"
@@ -234,7 +232,6 @@ patch_enable_all ()
 	enable_msvcrt_Math_Precision="$1"
 	enable_msvfw32_ICGetDisplayFormat="$1"
 	enable_msxml3_Normalize_Data="$1"
-	enable_nine="$1"
 	enable_ntdll_APC_Performance="$1"
 	enable_ntdll_APC_Start_Process="$1"
 	enable_ntdll_Activation_Context="$1"
@@ -390,7 +387,6 @@ patch_enable_all ()
 	enable_shlwapi_UrlCombine="$1"
 	enable_stdole32_idl_Typelib="$1"
 	enable_stdole32_tlb_SLTG_Typelib="$1"
-	enable_steamwebhelper="$1"
 	enable_taskmgr_Memory_Usage="$1"
 	enable_user_exe16_CONTAINING_RECORD="$1"
 	enable_user_exe16_DlgDirList="$1"
@@ -524,6 +520,10 @@ patch_enable_all ()
 	enable_wusa_MSU_Package_Installer="$1"
 	enable_xaudio2_get_al_format="$1"
 	enable_xaudio2_7_OnVoiceProcessingPassStart="$1"
+	enable_z_fo4="$1"
+	enable_z_gta5="$1"
+	enable_z_nine="$1"
+	enable_z_steamwebhelper="$1"
 }
 
 # Enable or disable a specific patchset
@@ -788,9 +788,6 @@ patch_enable ()
 		explorer-Video_Registry_Key)
 			enable_explorer_Video_Registry_Key="$2"
 			;;
-		fo4)
-			enable_fo4="$2"
-			;;
 		fonts-Missing_Fonts)
 			enable_fonts_Missing_Fonts="$2"
 			;;
@@ -817,9 +814,6 @@ patch_enable ()
 			;;
 		gdiplus-Performance-Improvements)
 			enable_gdiplus_Performance_Improvements="$2"
-			;;
-		gta5)
-			enable_gta5="$2"
 			;;
 		hal-KeQueryPerformanceCounter)
 			enable_hal_KeQueryPerformanceCounter="$2"
@@ -985,9 +979,6 @@ patch_enable ()
 			;;
 		msxml3-Normalize_Data)
 			enable_msxml3_Normalize_Data="$2"
-			;;
-		nine)
-			enable_nine="$2"
 			;;
 		ntdll-APC_Performance)
 			enable_ntdll_APC_Performance="$2"
@@ -1454,9 +1445,6 @@ patch_enable ()
 		stdole32.tlb-SLTG_Typelib)
 			enable_stdole32_tlb_SLTG_Typelib="$2"
 			;;
-		steamwebhelper)
-			enable_steamwebhelper="$2"
-			;;
 		taskmgr-Memory_Usage)
 			enable_taskmgr_Memory_Usage="$2"
 			;;
@@ -1855,6 +1843,18 @@ patch_enable ()
 			;;
 		xaudio2_7-OnVoiceProcessingPassStart)
 			enable_xaudio2_7_OnVoiceProcessingPassStart="$2"
+			;;
+		z-fo4)
+			enable_z_fo4="$2"
+			;;
+		z-gta5)
+			enable_z_gta5="$2"
+			;;
+		z-nine)
+			enable_z_nine="$2"
+			;;
+		z-steamwebhelper)
+			enable_z_steamwebhelper="$2"
 			;;
 		*)
 			return 1
@@ -4906,18 +4906,6 @@ if test "$enable_explorer_Video_Registry_Key" -eq 1; then
 	) >> "$patchlist"
 fi
 
-# Patchset fo4
-# |
-# | Modified files:
-# |   *	dlls/wined3d/glsl_shader.c
-# |
-if test "$enable_fo4" -eq 1; then
-	patch_apply fo4/0001-fo4.patch
-	(
-		printf '%s\n' '+    { "Unknown", "f04 patch.", 1 },';
-	) >> "$patchlist"
-fi
-
 # Patchset fonts-Missing_Fonts
 # |
 # | This patchset fixes the following Wine bugs:
@@ -5072,19 +5060,6 @@ if test "$enable_gdiplus_Performance_Improvements" -eq 1; then
 		printf '%s\n' '+    { "Dmitry Timoshkov", "gdiplus: Change multiplications by additions in the x/y scaler loops.", 1 },';
 		printf '%s\n' '+    { "Dmitry Timoshkov", "gdiplus: Remove ceilf/floorf calls from bilinear scaler.", 2 },';
 		printf '%s\n' '+    { "Dmitry Timoshkov", "gdiplus: Prefer using pre-multiplied ARGB data in the scaler.", 1 },';
-	) >> "$patchlist"
-fi
-
-# Patchset gta5
-# |
-# | Modified files:
-# |   *	dlls/d3d11/device.c, dlls/wined3d/swapchain.c
-# |
-if test "$enable_gta5" -eq 1; then
-	patch_apply gta5/0001-gta5-device.patch
-	patch_apply gta5/0002-gta5-swapchain.patch
-	(
-		printf '%s\n' '+    { "Unknown", "f04 patch.", 1 },';
 	) >> "$patchlist"
 fi
 
@@ -6121,25 +6096,6 @@ if test "$enable_msxml3_Normalize_Data" -eq 1; then
 	patch_apply msxml3-Normalize_Data/0001-msxml3-Remove-CRs-in-domtext_put_data-and-add-them-i.patch
 	(
 		printf '%s\n' '+    { "Alex Henrie", "msxml3: Remove CRs in domtext_put_data and add them in domtext_get_xml.", 1 },';
-	) >> "$patchlist"
-fi
-
-# Patchset nine
-# |
-# | Modified files:
-# |   *	configure.ac, dlls/d3d9-nine/Makefile.in, dlls/d3d9-nine/d3d9-nine.spec, dlls/d3d9-nine/d3d9_main.c,
-# | 	dlls/d3d9-nine/d3dadapter9.c, dlls/d3d9-nine/d3dadapter9.h, dlls/d3d9-nine/device_wrap.c, dlls/d3d9-nine/device_wrap.h,
-# | 	dlls/d3d9-nine/dri3.c, dlls/d3d9-nine/dri3.h, dlls/d3d9-nine/present.c, dlls/d3d9-nine/present.h,
-# | 	dlls/d3d9-nine/shader_validator.c, dlls/d3d9-nine/shader_validator.h, dlls/d3d9-nine/version.rc,
-# | 	dlls/d3d9-nine/wndproc.c, dlls/d3d9-nine/wndproc.h, dlls/ntdll/loadorder.c, programs/winecfg/resource.h,
-# | 	programs/winecfg/staging.c, programs/winecfg/winecfg.rc
-# |
-if test "$enable_nine" -eq 1; then
-	patch_apply nine/0001-staging-helper.patch
-	patch_apply nine/0002-wine-d3d9.patch
-	(
-		printf '%s\n' '+    { "Nick Sarnie", "Staging helper.", 1 },';
-		printf '%s\n' '+    { "Nick Sarnie", "Wine D3D9.", 1 },';
 	) >> "$patchlist"
 fi
 
@@ -8612,17 +8568,6 @@ if test "$enable_stdole32_tlb_SLTG_Typelib" -eq 1; then
 	) >> "$patchlist"
 fi
 
-# Patchset steamwebhelper
-# |
-# | Modified files:
-# |   *	dlls/kernel32/process.c
-# |
-if test "$enable_steamwebhelper" -eq 1; then
-	patch_apply steamwebhelper/0001-steamwebhelper.patch
-	(
-	) >> "$patchlist"
-fi
-
 # Patchset taskmgr-Memory_Usage
 # |
 # | Modified files:
@@ -10101,6 +10046,31 @@ if test "$enable_wined3d_wined3d_guess_gl_vendor" -eq 1; then
 	) >> "$patchlist"
 fi
 
+# Patchset z-fo4
+# |
+# | Modified files:
+# |   *	dlls/wined3d/glsl_shader.c
+# |
+if test "$enable_z_fo4" -eq 1; then
+	patch_apply z-fo4/0001-fo4.patch
+	(
+		printf '%s\n' '+    { "Unknown", "f04 patch.", 1 },';
+	) >> "$patchlist"
+fi
+
+# Patchset z-gta5
+# |
+# | Modified files:
+# |   *	dlls/d3d11/device.c, dlls/wined3d/swapchain.c
+# |
+if test "$enable_z_gta5" -eq 1; then
+	patch_apply z-gta5/0001-gta5-device.patch
+	patch_apply z-gta5/0002-gta5-swapchain.patch
+	(
+		printf '%s\n' '+    { "Unknown", "f04 patch.", 1 },';
+	) >> "$patchlist"
+fi
+
 # Patchset wined3d-CSMT_Main
 # |
 # | This patchset has the following (direct or indirect) dependencies:
@@ -10836,6 +10806,36 @@ if test "$enable_xaudio2_7_OnVoiceProcessingPassStart" -eq 1; then
 	patch_apply xaudio2_7-OnVoiceProcessingPassStart/0001-xaudio2_7-Use-assembly-wrapper-to-call-OnVoiceProces.patch
 	(
 		printf '%s\n' '+    { "Sebastian Lackner", "xaudio2_7: Use assembly wrapper to call OnVoiceProcessingPassStart callback.", 1 },';
+	) >> "$patchlist"
+fi
+
+# Patchset z-nine
+# |
+# | Modified files:
+# |   *	configure.ac, dlls/d3d9-nine/Makefile.in, dlls/d3d9-nine/d3d9-nine.spec, dlls/d3d9-nine/d3d9_main.c,
+# | 	dlls/d3d9-nine/d3dadapter9.c, dlls/d3d9-nine/d3dadapter9.h, dlls/d3d9-nine/device_wrap.c, dlls/d3d9-nine/device_wrap.h,
+# | 	dlls/d3d9-nine/dri3.c, dlls/d3d9-nine/dri3.h, dlls/d3d9-nine/present.c, dlls/d3d9-nine/present.h,
+# | 	dlls/d3d9-nine/shader_validator.c, dlls/d3d9-nine/shader_validator.h, dlls/d3d9-nine/version.rc,
+# | 	dlls/d3d9-nine/wndproc.c, dlls/d3d9-nine/wndproc.h, dlls/ntdll/loadorder.c, programs/winecfg/resource.h,
+# | 	programs/winecfg/staging.c, programs/winecfg/winecfg.rc
+# |
+if test "$enable_z_nine" -eq 1; then
+	patch_apply z-nine/0001-staging-helper.patch
+	patch_apply z-nine/0002-wine-d3d9.patch
+	(
+		printf '%s\n' '+    { "Nick Sarnie", "Staging helper.", 1 },';
+		printf '%s\n' '+    { "Nick Sarnie", "Wine D3D9.", 1 },';
+	) >> "$patchlist"
+fi
+
+# Patchset z-steamwebhelper
+# |
+# | Modified files:
+# |   *	dlls/kernel32/process.c
+# |
+if test "$enable_z_steamwebhelper" -eq 1; then
+	patch_apply z-steamwebhelper/0001-steamwebhelper.patch
+	(
 	) >> "$patchlist"
 fi
 
