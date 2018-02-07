@@ -1,3 +1,10 @@
+From cccf1b75e810985c817d34329878f497d853d3ac Mon Sep 17 00:00:00 2001
+From: Unknown <unknown@unknown.com>
+Date: Sat, 9 Jan 2016 16:57:49 +0100
+Subject: f04 patch
+
+Signed-off-by: Unknown <unknown@unknown.com>
+
 --- a/dlls/wined3d/glsl_shader.c
 +++ b/dlls/wined3d/glsl_shader.c
 @@ -6709,6 +6709,12 @@ static void shader_glsl_setup_sm3_rasterizer_input(struct shader_glsl_priv *priv

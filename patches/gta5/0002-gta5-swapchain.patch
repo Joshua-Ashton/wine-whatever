@@ -1,3 +1,10 @@
+From cccf1b75e810985c817d34329878f497d853d3ac Mon Sep 17 00:00:00 2001
+From: Unknown <unknown@unknown.com>
+Date: Sat, 9 Jan 2016 16:57:49 +0100
+Subject: f04 patch
+
+Signed-off-by: Unknown <unknown@unknown.com>
+
 --- a/dlls/wined3d/swapchain.c	
 +++ b/dlls/wined3d/swapchain.c	
 @@ -929,7 +929,7 @@ static HRESULT swapchain_init(struct wined3d_swapchain *swapchain, struct wined3

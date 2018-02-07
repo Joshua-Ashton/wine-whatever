@@ -4914,6 +4914,7 @@ fi
 if test "$enable_fo4" -eq 1; then
 	patch_apply fo4/0001-fo4.patch
 	(
+		printf '%s\n' '+    { "Unknown", "f04 patch.", 1 },';
 	) >> "$patchlist"
 fi
 
@@ -5083,6 +5084,7 @@ if test "$enable_gta5" -eq 1; then
 	patch_apply gta5/0001-gta5-device.patch
 	patch_apply gta5/0002-gta5-swapchain.patch
 	(
+		printf '%s\n' '+    { "Unknown", "f04 patch.", 1 },';
 	) >> "$patchlist"
 fi
 
