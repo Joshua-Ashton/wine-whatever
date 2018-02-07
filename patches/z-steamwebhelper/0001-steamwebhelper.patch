@@ -1,3 +1,10 @@
+From cccf1b75e810985c817d34329878f497d853d3ac Mon Sep 17 00:00:00 2001
+From: Unknown <unknown@unknown.com>
+Date: Sat, 9 Jan 2016 16:57:49 +0100
+Subject: generic patch
+
+Signed-off-by: Unknown <unknown@unknown.com>
+
 --- a/dlls/kernel32/process.c
 +++ b/dlls/kernel32/process.c
 @@ -2429,6 +2429,33 @@ static BOOL create_process_impl( LPCWSTR app_name, LPWSTR cmd_line, LPSECURITY_A

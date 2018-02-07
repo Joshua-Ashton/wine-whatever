@@ -10836,6 +10836,7 @@ fi
 if test "$enable_z_steamwebhelper" -eq 1; then
 	patch_apply z-steamwebhelper/0001-steamwebhelper.patch
 	(
+		printf '%s\n' '+    { "Unknown", "generic patch.", 1 },';
 	) >> "$patchlist"
 fi
 
