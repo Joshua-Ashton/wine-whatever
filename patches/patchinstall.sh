@@ -234,6 +234,7 @@ patch_enable_all ()
 	enable_msvcrt_Math_Precision="$1"
 	enable_msvfw32_ICGetDisplayFormat="$1"
 	enable_msxml3_Normalize_Data="$1"
+	enable_nine="$1"
 	enable_ntdll_APC_Performance="$1"
 	enable_ntdll_APC_Start_Process="$1"
 	enable_ntdll_Activation_Context="$1"
@@ -984,6 +985,9 @@ patch_enable ()
 			;;
 		msxml3-Normalize_Data)
 			enable_msxml3_Normalize_Data="$2"
+			;;
+		nine)
+			enable_nine="$2"
 			;;
 		ntdll-APC_Performance)
 			enable_ntdll_APC_Performance="$2"
@@ -6115,6 +6119,25 @@ if test "$enable_msxml3_Normalize_Data" -eq 1; then
 	patch_apply msxml3-Normalize_Data/0001-msxml3-Remove-CRs-in-domtext_put_data-and-add-them-i.patch
 	(
 		printf '%s\n' '+    { "Alex Henrie", "msxml3: Remove CRs in domtext_put_data and add them in domtext_get_xml.", 1 },';
+	) >> "$patchlist"
+fi
+
+# Patchset nine
+# |
+# | Modified files:
+# |   *	configure.ac, dlls/d3d9-nine/Makefile.in, dlls/d3d9-nine/d3d9-nine.spec, dlls/d3d9-nine/d3d9_main.c,
+# | 	dlls/d3d9-nine/d3dadapter9.c, dlls/d3d9-nine/d3dadapter9.h, dlls/d3d9-nine/device_wrap.c, dlls/d3d9-nine/device_wrap.h,
+# | 	dlls/d3d9-nine/dri3.c, dlls/d3d9-nine/dri3.h, dlls/d3d9-nine/present.c, dlls/d3d9-nine/present.h,
+# | 	dlls/d3d9-nine/shader_validator.c, dlls/d3d9-nine/shader_validator.h, dlls/d3d9-nine/version.rc,
+# | 	dlls/d3d9-nine/wndproc.c, dlls/d3d9-nine/wndproc.h, dlls/ntdll/loadorder.c, programs/winecfg/resource.h,
+# | 	programs/winecfg/staging.c, programs/winecfg/winecfg.rc
+# |
+if test "$enable_nine" -eq 1; then
+	patch_apply nine/0001-staging-helper.patch
+	patch_apply nine/0002-wine-d3d9.patch
+	(
+		printf '%s\n' '+    { "Nick Sarnie", "Staging helper.", 1 },';
+		printf '%s\n' '+    { "Nick Sarnie", "Wine D3D9.", 1 },';
 	) >> "$patchlist"
 fi
 
