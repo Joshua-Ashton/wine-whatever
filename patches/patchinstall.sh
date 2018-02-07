@@ -520,6 +520,8 @@ patch_enable_all ()
 	enable_wusa_MSU_Package_Installer="$1"
 	enable_xaudio2_get_al_format="$1"
 	enable_xaudio2_7_OnVoiceProcessingPassStart="$1"
+	enable_fo4="$1"
+	enable_gta5="$1"
 }
 
 # Enable or disable a specific patchset
@@ -1839,6 +1841,12 @@ patch_enable ()
 			;;
 		xaudio2_7-OnVoiceProcessingPassStart)
 			enable_xaudio2_7_OnVoiceProcessingPassStart="$2"
+			;;
+		fo4)
+			enable_fo4="$2"
+			;;
+		gta5)
+			enable_gta5="$2"
 			;;
 		*)
 			return 1
@@ -10765,6 +10773,20 @@ if test "$enable_xaudio2_7_OnVoiceProcessingPassStart" -eq 1; then
 	patch_apply xaudio2_7-OnVoiceProcessingPassStart/0001-xaudio2_7-Use-assembly-wrapper-to-call-OnVoiceProces.patch
 	(
 		printf '%s\n' '+    { "Sebastian Lackner", "xaudio2_7: Use assembly wrapper to call OnVoiceProcessingPassStart callback.", 1 },';
+	) >> "$patchlist"
+fi
+
+if test "$enable_fo4" -eq 1; then
+	patch_apply fo4/fo4.patch
+	(
+		printf '%s\n' '+    { "Someone", "Fallout 4 patch.", 1 },';
+	) >> "$patchlist"
+fi
+
+if test "$enable_gta5" -eq 1; then
+	patch_apply gta5/gta5.patch
+	(
+		printf '%s\n' '+    { "Pitor W", "GTA 5 black screenp atch.", 1 },';
 	) >> "$patchlist"
 fi
 
